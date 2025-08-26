@@ -11,9 +11,6 @@ function App() {
         <Route path="/" element={<LoginPage/>}/>
         <Route path="/forgot" element={<ForgotPage/>}/>
         <Route path="/register" element={<RegisterPage/>}/>
-        
-        <Route path="/hook" element={<HookGral/>}/>
-        <Route path="/usestate" element={<UseStateContador/>}/>
       </Routes>
     </BrowserRouter>
   );
