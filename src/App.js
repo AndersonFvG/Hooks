@@ -5,6 +5,7 @@ import LoginPage from './pages/loginpages/LoginPage';
 import RegisterPage from './pages/registerpage/registerPage';
 import ForgotPasswordPage from './pages/forgotpage/forgotPage';
 import NotFoundPage from  './pages/components/notFoundPage';
+import Protegida from './pages/protegida/protegida';
 
 // Rutas para hooks
 import UseStatePlay from './pages/playground/UseStatePlay';
@@ -26,6 +27,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/protegida" element={<Protegida />} />
 
         {/* Rutas protegidas con Firebase Auth */}
         <Route path="/dashboard" element={<ProtectedRoute> <DashboardPage /> </ProtectedRoute> } />
