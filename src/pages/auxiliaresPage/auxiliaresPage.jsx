@@ -55,7 +55,10 @@ function AuxiliaresPage() {
     };
 
     const handleEdit = (aux) => {
-        setSelectedAux(aux);
+        setSelectedAux({
+            ...aux,
+            edad: calcularEdad(aux.fechaNacimiento)
+        });
         setShowModal(true);
     };
 
@@ -84,18 +87,52 @@ function AuxiliaresPage() {
             Swal.fire('Error', 'No se pudo actualizar.', 'error');
         }
     };
-
     const handleModalChange = (e) => {
         const { name, value } = e.target;
-        setSelectedAux({
-            ...selectedAux,
-            [name]: value
+    
+        setSelectedAux((prev) => {
+            const updated = { ...prev, [name]: value };
+    
+            if (name === 'fechaNacimiento') {
+                updated.edad = calcularEdad(value);
+            }
+    
+            return updated;
         });
     };
 
     // Foto de usuario (si está logueado)
     const user = auth.currentUser;
 
+    const getEstadoClase = (estado) => {
+    switch ((estado || 'Pendiente').toLowerCase()) {
+        case 'activo':
+            return 'bg-success'; // Verde
+        case 'inactivo':
+            return 'bg-danger'; // Rojo
+        case 'pendiente':
+            return 'bg-warning'; // Amarillo
+        default:
+            return 'bg-secondary'; // Gris por defecto
+    }
+    };
+    const calcularEdad = (fechaNacimiento) => {
+        if (!fechaNacimiento) return '';
+    
+        const hoy = new Date();
+        const fechaNac = new Date(fechaNacimiento);
+    
+        let edad = hoy.getFullYear() - fechaNac.getFullYear();
+        const mes = hoy.getMonth() - fechaNac.getMonth();
+        const dia = hoy.getDate() - fechaNac.getDate();
+    
+        if (mes < 0 || (mes === 0 && dia < 0)) {
+            edad--;
+        }
+    
+        return edad;
+    };
+    
     return (
         <>
             {/* NAVBAR */}
@@ -153,6 +190,7 @@ function AuxiliaresPage() {
                                     <th>Teléfono</th>
                                     <th>Email</th>
                                     <th>Fecha Nacimiento</th>
+                                    <th>Edad</th>
                                     <th>Sexo</th>
                                     <th>Estado</th>
                                     <th>Acciones</th>
@@ -167,8 +205,12 @@ function AuxiliaresPage() {
                                         <td>{aux.telefono}</td>
                                         <td>{aux.email}</td>
                                         <td>{aux.fechaNacimiento || '-'}</td>
+                                        <td>{aux.edad || '-'}</td>
                                         <td>{aux.sexo || '-'}</td>
-                                        <td>{aux.estado || 'Pendiente'}</td>
+                                        <td>
+                                            <span className={`badge estado-badge ${getEstadoClase(aux.estado)}`}>
+                                                {aux.estado || 'Pendiente'}
+                                            </span></td>
                                         <td>
                                             <Button
                                                 variant="warning"
@@ -261,6 +303,15 @@ function AuxiliaresPage() {
                                     value={selectedAux.fechaNacimiento || ''}
                                     onChange={handleModalChange}
                                 />
+                                <Form.Group className="mb-2">
+                                    <Form.Label>Edad</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="edad"
+                                        value={selectedAux.edad}
+                                        readOnly
+                                    />
+                                </Form.Group>
                             </Form.Group>
                             <Form.Group className="mb-2">
                                 <Form.Label>Sexo</Form.Label>

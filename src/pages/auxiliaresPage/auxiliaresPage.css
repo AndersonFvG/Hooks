@@ -27,3 +27,11 @@
     color: #fff;
     padding: 10px 0;
 }
+.estado-badge {
+    padding: 5px 10px;
+    border-radius: 12px;
+    color: white;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
