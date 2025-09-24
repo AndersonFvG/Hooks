@@ -26,7 +26,7 @@ function AuxiliaresPage() {
         };
         fetchAuxiliares();
     }, []);
-
+   
     const handleLogout = async () => {
         await signOut(auth);
         navigate('/');
@@ -64,6 +64,24 @@ function AuxiliaresPage() {
 
     const handleSaveChanges = async () => {
         try {
+            const soloLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+            const soloNumeros = /^[0-9]+$/;
+            if(selectedAux.nombres === '' || selectedAux.apellidos === '' || selectedAux.cedula === '' || selectedAux.telefono === '' 
+                || selectedAux.email === '' || selectedAux.fechaNacimiento === '' || selectedAux.sexo === '' || selectedAux.estado === ''
+                || selectedAux.rol === ''){
+               Swal.fire('Error', 'Todos los campos deben ser llenados', 'error');
+                return;
+            }else{
+                if (!soloLetras.test(selectedAux.nombres) || !soloLetras.test(selectedAux.apellidos)) {
+                    Swal.fire('Error', 'Los campos de nombres y apellidos solo deben contener letras.', 'error');
+                    return;
+                }
+                if (!soloNumeros.test(selectedAux.cedula) || !soloNumeros.test(selectedAux.telefono)) {
+                    Swal.fire('Error', 'Los campos de cedula y telefono solo deben contener numeros.', 'error');
+                    return;
+                }
+                
+            }
             const auxRef = doc(db, 'usuarios', selectedAux.id);
             await updateDoc(auxRef, {
                 nombres: selectedAux.nombres,
@@ -72,8 +90,11 @@ function AuxiliaresPage() {
                 telefono: selectedAux.telefono,
                 email: selectedAux.email,
                 fechaNacimiento: selectedAux.fechaNacimiento,
+                edad: selectedAux.edad,
                 sexo: selectedAux.sexo,
-                estado: selectedAux.estado
+                estado: selectedAux.estado,
+                rol: selectedAux.rol
+
             });
 
             setAuxiliares(auxiliares.map(a =>
@@ -87,6 +108,7 @@ function AuxiliaresPage() {
             Swal.fire('Error', 'No se pudo actualizar.', 'error');
         }
     };
+   
     const handleModalChange = (e) => {
         const { name, value } = e.target;
     
@@ -112,6 +134,16 @@ function AuxiliaresPage() {
             return 'bg-danger'; // Rojo
         case 'pendiente':
             return 'bg-warning'; // Amarillo
+        default:
+            return 'bg-secondary'; // Gris por defecto
+    }
+    };
+    const getRol = (rol) => {
+    switch ((rol || '').toLowerCase()) {
+        case 'auxiliar':
+            return 'bg-primary'; 
+        case 'admin':
+            return 'bg-dark'; 
         default:
             return 'bg-secondary'; // Gris por defecto
     }
@@ -193,6 +225,7 @@ function AuxiliaresPage() {
                                     <th>Edad</th>
                                     <th>Sexo</th>
                                     <th>Estado</th>
+                                    <th>Rol</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -210,8 +243,16 @@ function AuxiliaresPage() {
                                         <td>
                                             <span className={`badge estado-badge ${getEstadoClase(aux.estado)}`}>
                                                 {aux.estado || 'Pendiente'}
-                                            </span></td>
+                                            </span>
+                                        </td>
                                         <td>
+                                            <span className={`badge estado-badge ${getRol(aux.rol)}`}>
+                                                {aux.rol || '-'}
+                                            </span>
+                                        </td>
+                                        
+                                        <td>
+                                        
                                             <Button
                                                 variant="warning"
                                                 size="sm"
@@ -335,6 +376,18 @@ function AuxiliaresPage() {
                                     <option>Pendiente</option>
                                     <option>Activo</option>
                                     <option>Inactivo</option>
+                                </Form.Select>
+                            </Form.Group>
+                            <Form.Group className="mb-2">
+                                <Form.Label>Rol</Form.Label>
+                                <Form.Select
+                                    name="rol"
+                                    value={selectedAux.rol || ''}
+                                    onChange={handleModalChange}
+                                >
+                                    <option value="">Seleccionar</option>
+                                    <option>Auxiliar</option>
+                                    <option>Admin</option>
                                 </Form.Select>
                             </Form.Group>
                         </Form>
