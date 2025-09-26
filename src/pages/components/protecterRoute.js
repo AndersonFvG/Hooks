@@ -12,7 +12,7 @@ function ProtectedRoute({ children }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setFakeLoading(false);
-    }, 3000);
+    }, 3);
     return () => clearTimeout(timer);
   }, []);
 

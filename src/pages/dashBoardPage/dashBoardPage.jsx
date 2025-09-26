@@ -32,9 +32,9 @@ function DashboardPage() {
             <main className="main-content">
                 <div>
                 <img src={logo} alt="Logo" className="main-logo" />
-                <h1 className="welcome-title">Welcome to Brilla System</h1>
+                <h1 className="welcome-title">!Bienvenido a TechMobile!</h1>
                 <p className="welcome-text">
-                    Manage your clients, services, and more efficiently!
+                    Adquiere nustros servicios de venta de telefonos
                 </p>
 
                 <p className="welcome-text">

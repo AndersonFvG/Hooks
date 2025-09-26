@@ -17,6 +17,7 @@ import ProtectedRoute from './pages/components/protecterRoute';
 import DashboardPage from './pages/dashBoardPage/dashBoardPage';
 import ResetPasswordPage from './pages/resetPasswordPage/resetPasswordPage';
 import AuxiliaresPage from './pages/auxiliaresPage/auxiliaresPage';
+import ServiciosPage from './pages/Servicios/ServiciosPage'
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         {/* Rutas protegidas con Firebase Auth */}
         <Route path="/dashboard" element={<ProtectedRoute> <DashboardPage /> </ProtectedRoute> } />
         <Route path="/auxiliares" element={<ProtectedRoute> <AuxiliaresPage /> </ProtectedRoute> } />
+         <Route path="/servicios" element={<ProtectedRoute> <ServiciosPage /> </ProtectedRoute> } />
 
         {/* Ruta genérica para páginas no encontradas */}
         <Route path="*" element={<NotFoundPage />} />
