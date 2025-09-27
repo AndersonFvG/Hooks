@@ -83,8 +83,8 @@ function NavBar(){
                     </NavDropdown>
                     <Nav.Link onClick={() => navigate('/servicios')}>Servicios</Nav.Link>
                     <Nav.Link onClick={() => navigate('/cronograma')}>Cronograma</Nav.Link>
-                    <Nav.Link onClick={() => navigate('/opcion1')}>Opción 1</Nav.Link>
-                    <Nav.Link onClick={() => navigate('/opcion2')}>Opción 2</Nav.Link>
+                    <Nav.Link onClick={() => navigate('/soporte')}>Soporte</Nav.Link>
+                    <Nav.Link onClick={() => navigate('/tienda')}> Tienda</Nav.Link>
                     <Nav.Item className="logout-container" onClick={handleLogout}>
                         <Nav.Link className="logout-link d-flex align-items-center gap-2">
                         <FaSignOutAlt /> Cerrar Sesión

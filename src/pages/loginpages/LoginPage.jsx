@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Swal from 'sweetalert2';
 import { auth, googleProvider, db } from '../../firebase';
 import { signInWithEmailAndPassword, fetchSignInMethodsForEmail, linkWithCredential, EmailAuthProvider, signInWithPopup } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc , setDoc } from 'firebase/firestore';
 import './LoginPage.css';
 import logo from '../../assets/logo.jpg';
 
@@ -56,23 +56,41 @@ function LoginPage() {
     try {
       const googleResult = await signInWithPopup(auth, googleProvider);
       const user = googleResult.user;
-
-
+  
       const signInMethods = await fetchSignInMethodsForEmail(auth, user.email);
-
+  
+      // 1. Verificar si el usuario ya está en la colección 'usuarios'
+      const userDocRef = doc(db, 'usuarios', user.uid);
+      const userSnap = await getDoc(userDocRef);
+  
+      // 2. Si no existe, lo creamos como AUXILIAR por defecto
+      if (!userSnap.exists()) {
+        await setDoc(userDocRef, {
+          nombres: user.displayName?.split(' ')[0] || '',
+          apellidos: user.displayName?.split(' ').slice(1).join(' ') || '',
+          email: user.email,
+          telefono: '', 
+          cedula: '',
+          fechaNacimiento: '',
+          edad: '',
+          sexo: '',
+          estado: 'Activo',
+          rol: 'Auxiliar'
+        });
+      }
+  
+      // 3. Si el usuario ya tenía email+contraseña, pedir contraseña y vincular
       if (signInMethods.includes('password')) {
-
         const password = await solicitarPassword();
         if (!password) {
           Swal.fire("Cancelado", "Operación cancelada.", "info");
           return;
         }
-
   
         const credential = EmailAuthProvider.credential(user.email, password);
         await linkWithCredential(user, credential);
       }
-
+  
       Swal.fire({
         title: "¡Bienvenido!",
         text: `Sesión iniciada con Google: ${user.email}`,
@@ -82,7 +100,7 @@ function LoginPage() {
       }).then(() => {
         window.location.href = "/dashboard";
       });
-
+  
     } catch (error) {
       console.error(error);
       Swal.fire("Error", "No se pudo iniciar sesión con Google.", "error");

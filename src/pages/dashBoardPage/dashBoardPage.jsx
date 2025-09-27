@@ -34,7 +34,7 @@ function DashboardPage() {
                 <img src={logo} alt="Logo" className="main-logo" />
                 <h1 className="welcome-title">!Bienvenido a TechMobile!</h1>
                 <p className="welcome-text">
-                    Adquiere nustros servicios de venta de telefonos
+                    Adquiere nustros servicios de Tecnologia celular
                 </p>
 
                 <p className="welcome-text">

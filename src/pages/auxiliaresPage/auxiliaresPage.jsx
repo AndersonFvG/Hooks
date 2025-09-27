@@ -80,6 +80,10 @@ function AuxiliaresPage() {
                     Swal.fire('Error', 'Los campos de cedula y telefono solo deben contener numeros.', 'error');
                     return;
                 }
+                if(selectedAux.cedula.length > 10 || selectedAux.telefono.length > 10){
+                    Swal.fire('Error', 'Los campos de cedula y telefono debe tener como maximo 10 caracteres.', 'error');
+                    return;
+                }
                 
             }
             const auxRef = doc(db, 'usuarios', selectedAux.id);
@@ -122,7 +126,7 @@ function AuxiliaresPage() {
             return updated;
         });
     };
-
+    
     // Foto de usuario (si está logueado)
     const user = auth.currentUser;
 
@@ -210,7 +214,7 @@ function AuxiliaresPage() {
             <main className="main-content">
                 <Container className="mt-4">
                     <h2 className="page-title text-center mb-4">
-                        AUXILIARES DE SERVICIOS REGISTRADOS EN BRILLA
+                        AUXILIARES DE SERVICIOS REGISTRADOS EN TECHMOBILE
                     </h2>
                     <div className="table-container">
                         <Table striped bordered hover responsive className="tabla-auxiliares">

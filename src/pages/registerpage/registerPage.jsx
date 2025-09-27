@@ -35,7 +35,10 @@ function RegisterPage() {
         return;
       }
     }
-
+    if(formData.telefono.length > 10 || formData.cedula.length > 10){
+      Swal.fire('Error', 'Los campos de cedula y telefono debe tener como maximo 10 caracteres.', 'error');
+      return;
+  }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       Swal.fire("Correo inválido", "Escribe un correo válido.", "error");

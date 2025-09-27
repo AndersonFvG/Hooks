@@ -13,6 +13,7 @@ import NavBar from '../components/NavBarPage';
 import Footer from '../components/FooterPage';
 
 function ServiciosPage() {
+  const navigate = useNavigate();
   return (
     <>
       <div>
@@ -24,15 +25,18 @@ function ServiciosPage() {
                      <img
                     src={Soporte}
                     alt="img Soporte Tecnico"
-                    className=""
+                    className="opciones"
                     style={{ maxWidth: '100px', borderRadius: '50%' }}
-                />
+                    onClick={() => navigate('/soporte')}
+                    
+                  />
                 <h3>Soporte Tecnico</h3>
                   <img
                     src={Dispositivos}
                     alt="img Tienda"
-                    className=""
-                    style={{ maxWidth: '100px', borderRadius: '50%' }}
+                    className="opciones"
+                    style={{ maxWidth: '100px'}}
+                    onClick={() => navigate('/tienda')}
                 />
                 <h3>Venta de Telefonos</h3>
                 </div>
