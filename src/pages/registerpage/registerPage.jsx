@@ -63,7 +63,8 @@ function RegisterPage() {
         sexo: formData.sexo,
         telefono: formData.telefono,
         email: formData.email,
-        estado: 'pendiente'  // campo para activar o desactivar luego
+        estado: 'pendiente',// campo para activar o desactivar luego
+        rol: 'cliente' 
       });
 
       Swal.fire("¡Registro exitoso!", "Usuario registrado correctamente.", "success").then(() => {

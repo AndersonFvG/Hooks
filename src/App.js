@@ -20,6 +20,7 @@ import AuxiliaresPage from './pages/auxiliaresPage/auxiliaresPage';
 import ServiciosPage from './pages/Servicios/ServiciosPage';
 import SoportePage from './pages/soportepage/SoportePage';
 import TiendaPage from './pages/tienda/Tienda';
+import ClientePage from './pages/clientePage/ClientePage';
 
 function App() {
   return (
@@ -33,11 +34,42 @@ function App() {
         <Route path="/protegida" element={<Protegida />} />
 
         {/* Rutas protegidas con Firebase Auth */}
-        <Route path="/dashboard" element={<ProtectedRoute> <DashboardPage /> </ProtectedRoute> } />
-        <Route path="/auxiliares" element={<ProtectedRoute> <AuxiliaresPage /> </ProtectedRoute> } />
-        <Route path="/servicios" element={<ProtectedRoute> <ServiciosPage /> </ProtectedRoute> } />
-        <Route path="/soporte" element={<ProtectedRoute> <SoportePage /> </ProtectedRoute> } />
-        <Route path="/tienda" element={<ProtectedRoute> <TiendaPage /> </ProtectedRoute> } />
+        <Route path="/dashboard" element={
+          <ProtectedRoute allowedRoles={['admin', 'auxiliar', 'cliente']}>
+            <DashboardPage />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/auxiliares" element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <AuxiliaresPage />
+          </ProtectedRoute>
+        } />
+
+         <Route path="/clientes" element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <ClientePage />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/servicios" element={
+          <ProtectedRoute allowedRoles={['admin', 'cliente', 'auxiliar']}>
+            <ServiciosPage />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/soporte" element={
+          <ProtectedRoute allowedRoles={['admin', 'cliente', 'auxiliar']}>
+            <SoportePage />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/tienda" element={
+          <ProtectedRoute allowedRoles={['admin', 'cliente', 'auxiliar']}>
+            <TiendaPage />
+          </ProtectedRoute>
+        } />
+
 
 
         {/* Ruta genérica para páginas no encontradas */}

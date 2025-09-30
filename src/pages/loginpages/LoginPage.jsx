@@ -18,6 +18,9 @@ function LoginPage() {
       Swal.fire("Campos vacíos", "Por favor llena todos los campos.", "warning");
       return;
     }
+     if (password.length < 6) {
+                return Swal.fire("Error", "Contraseña mínima de 6 caracteres", "warning");
+            }
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -75,7 +78,7 @@ function LoginPage() {
           edad: '',
           sexo: '',
           estado: 'Activo',
-          rol: 'Auxiliar'
+          rol: 'Cliente'
         });
       }
   
